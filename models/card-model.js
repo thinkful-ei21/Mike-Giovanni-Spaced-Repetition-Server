@@ -26,7 +26,11 @@ CardSchema.set('toObject', {
 CardSchema.methods.serialize = function() {
   return {
     user_id: this.user_id,
-    _id: this._id
+    _id: this._id,
+    imageUrls: this.imageUrls,
+    answer: this.answer,
+    next: this.next,
+    previous: this.previous
   };
 };
 

@@ -20,9 +20,9 @@ const appendCard = (user_id, previous ='null')=>({
 
 router.post('/', jsonParser, (req, res) => {
 
-    //this endpoint currently appends a new card to the end of our logged-in user's linked list.
-    //that's probably not what this endpoint will do in the end, 
-    //but I have it set up here as an example of how the the logic could work (and to seed lists)
+  //this endpoint currently appends a new card to the end of our logged-in user's linked list.
+  //that's probably not what this endpoint will do in the end, 
+  //but I have it set up here as an example of how the the logic could work (and to seed lists)
 
 
   const _id = req.user._id;
@@ -38,7 +38,7 @@ router.post('/', jsonParser, (req, res) => {
     .then(card =>{
       if(card.previous !== 'null'){
         console.log('finding prev');
-        Card.findOneAndUpdate({_id:card.previous},{next:card._id})
+        Card.findOneAndUpdate({_id:card.previous},{next:card._id});
         // .then(console.log);
       }
       return card;
@@ -47,19 +47,34 @@ router.post('/', jsonParser, (req, res) => {
       return res.status(201).json(card.serialize());
     })
     .catch(err => {
-        // Forward validation errors on to the client, otherwise give a 500
-        // error because something unexpected has happened
-        if (err.reason === 'ValidationError') {
-          return res.status(err.code).json(err);
-        }
-        res.status(500).json({code: 500, message: 'Internal server error'});
-      });
+      // Forward validation errors on to the client, otherwise give a 500
+      // error because something unexpected has happened
+      if (err.reason === 'ValidationError') {
+        return res.status(err.code).json(err);
+      }
+      res.status(500).json({code: 500, message: 'Internal server error'});
+    });
     
 });
 
 router.get('/', jsonParser, (req, res) => {
+// look at card database and only returns first item in LL thats associated with user 
+  const _id = req.user._id;
 
-    
+  Card.findOne({user_id: _id, previous: 'null'})
+    .then(card => {
+      // console.log(card);
+      return card;
+    })
+    .then(card => {
+      console.log(card)
+      return res.status(201).json(card.serialize());
+    })
+    .catch(err => {
+      if (err.reason === 'ValidationError') {
+        return res.status(err.code).json(err);
+      }
+    });
 });
 
 module.exports = router;
