@@ -37,9 +37,13 @@ router.post('/', jsonParser, (req, res) => {
     })
     .then(card =>{
       if(card.previous !== 'null'){
-        console.log('finding prev');
-        Card.findOneAndUpdate({_id:card.previous},{next:card._id});
-        // .then(console.log);
+        console.log('finding prev at:', card.previous);
+
+        Card.findOneAndUpdate({_id:card.previous},{next:`${card._id}`})
+          .then((updated) =>{
+            return card;
+          });
+
       }
       return card;
     })
