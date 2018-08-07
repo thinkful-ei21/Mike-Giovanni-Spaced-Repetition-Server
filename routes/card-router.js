@@ -2,7 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
+const {cardArr} = require('../cardDB.js');
 const {Card} = require('../models/card-model');
 
 const router = express.Router();
@@ -20,6 +20,7 @@ const jsonParser = bodyParser.json();
 
 
 const popCard =(user_id)=>{
+  //removes and returns first document in ll
 
   return Card.findOne({user_id:user_id, previous: 'null'})
     .then(found => {
@@ -92,13 +93,17 @@ router.post('/', jsonParser, (req, res) => {
 
   const _id = req.user._id;
 
-  const exampleCard = {
-    user_id: _id,
-    imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
-    answer: 'Italy',
-  };
+  // const exampleCard = {
+  //   user_id: _id,
+  //   imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
+  //   answer: 'Italy',
+  // };
 
-  insertCard(exampleCard)
+  let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
+  cardTemplate.user_id = _id;
+  console.log(cardTemplate)
+
+  insertCard(cardTemplate)
     .then(card => {
       return res.status(201).json(card.serialize());
     })
