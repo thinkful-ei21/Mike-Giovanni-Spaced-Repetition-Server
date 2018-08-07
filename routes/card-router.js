@@ -18,6 +18,63 @@ const appendCard = (user_id, previous ='null')=>({
   previous: previous
 });
 
+
+// const popCard =()=>{};
+
+const insertCard =(card, previous = 'null') => {
+  //will insert a card after 'previous', chaning the relevant next and previous properties of adjacent cards
+  //leaving previous null will insert at head of list
+
+  card.previous = previous;
+
+  if(card.previous !== 'null'){
+    return Card.findOne({_id:card.previous})
+      .then(prev =>{
+        card.next = prev.next;
+        return Card.create(card);    
+      })
+      .then(newCard =>{
+        if(newCard.next !== 'null'){
+          return Card.findOneAndUpdate({_id:card.next}, {previous:`${newCard._id}`})
+            .then(()=>{
+              return Card.findOneAndUpdate({_id:card.previous}, {next:`${newCard._id}`})
+                .then(()=>{
+                  return newCard;
+                });
+            });
+        }
+        else{
+          return Card.findOneAndUpdate({_id:card.previous}, {next:`${newCard._id}`})
+            .then(()=>{
+              return newCard;
+            });
+        }
+      });
+  }
+  else if (card.previous === 'null'){
+    return Card.find({user_id: card.user_id, previous: 'null'})
+      .then(found =>{
+        if(found.length ===0){
+          return Card.create(card);
+        }
+        else if(found.length >0){
+          card.next = found[0]._id;
+          return Card.create(card)
+            .then((newCard) =>{
+              return Card.findOneAndUpdate({_id:found[0]._id}, {previous:`${newCard._id}`})
+                .then(()=>{
+                  return newCard;
+                });
+            });
+        }
+
+      });
+  }
+
+};
+
+
+
 router.post('/', jsonParser, (req, res) => {
 
   //this endpoint currently appends a new card to the end of our logged-in user's linked list.
@@ -27,37 +84,57 @@ router.post('/', jsonParser, (req, res) => {
 
   const _id = req.user._id;
 
-  Card.find({user_id: _id, next: 'null'})
-    .then(found =>{
-    //   console.log('found:', found);
-      return found.length ===0? appendCard(_id) : appendCard(_id, found[0]._id);
-    })
-    .then(newCard =>{
-      return Card.create(newCard);
-    })
-    .then(card =>{
-      if(card.previous !== 'null'){
-        // console.log('finding prev at:', card.previous);
+  const exampleCard = {
+    user_id: _id,
+    imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
+    answer: 'Italy',
+  };
 
-        Card.findOneAndUpdate({_id:card.previous},{next:`${card._id}`})
-          .then((updated) =>{
-            return card;
-          });
-
-      }
-      return card;
-    })
+  insertCard(exampleCard)
     .then(card => {
       return res.status(201).json(card.serialize());
     })
     .catch(err => {
-      // Forward validation errors on to the client, otherwise give a 500
-      // error because something unexpected has happened
+    // Forward validation errors on to the client, otherwise give a 500
+    // error because something unexpected has happened
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
       res.status(500).json({code: 500, message: 'Internal server error'});
     });
+
+
+  // Card.find({user_id: _id, next: 'null'})
+  //   .then(found =>{
+  //   //   console.log('found:', found);
+  //     return found.length ===0? appendCard(_id) : appendCard(_id, found[0]._id);
+  //   })
+  //   .then(newCard =>{
+  //     return Card.create(newCard);
+  //   })
+  //   .then(card =>{
+  //     if(card.previous !== 'null'){
+  //       // console.log('finding prev at:', card.previous);
+
+  //       Card.findOneAndUpdate({_id:card.previous},{next:`${card._id}`})
+  //         .then(() =>{
+  //           return card;
+  //         });
+
+  //     }
+  //     return card;
+  //   })
+  // .then(card => {
+  //   return res.status(201).json(card.serialize());
+  // })
+  // .catch(err => {
+  //   // Forward validation errors on to the client, otherwise give a 500
+  //   // error because something unexpected has happened
+  //   if (err.reason === 'ValidationError') {
+  //     return res.status(err.code).json(err);
+  //   }
+  //   res.status(500).json({code: 500, message: 'Internal server error'});
+  // });
     
 });
 
