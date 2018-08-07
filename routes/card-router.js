@@ -10,16 +10,24 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 
-const appendCard = (user_id, previous ='null')=>({
-  user_id: user_id,
-  imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
-  answer: 'Italy',
-  next: 'null',
-  previous: previous
-});
+// const appendCard = (user_id, previous ='null')=>({
+//   user_id: user_id,
+//   imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
+//   answer: 'Italy',
+//   next: 'null',
+//   previous: previous
+// });
 
 
-// const popCard =()=>{};
+const popCard =(user_id)=>{
+
+  return Card.findOne({user_id:user_id, previous: 'null'})
+    .then(found => {
+      return Card.findOneAndRemove({user_id:user_id, previous: 'null'})
+        .then(()=>{return found;});
+    })
+    .catch(err=>{console.log('promise error: ', err);});
+};
 
 const insertCard =(card, previous = 'null') => {
   //will insert a card after 'previous', chaning the relevant next and previous properties of adjacent cards
