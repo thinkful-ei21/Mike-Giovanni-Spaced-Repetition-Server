@@ -12,8 +12,8 @@ const jsonParser = bodyParser.json();
 
 const appendCard = (user_id, previous ='null')=>({
   user_id: user_id,
-  imageUrls: ['place.holder'],
-  answer: 'test answer',
+  imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
+  answer: 'Italy',
   next: 'null',
   previous: previous
 });
@@ -37,7 +37,7 @@ router.post('/', jsonParser, (req, res) => {
     })
     .then(card =>{
       if(card.previous !== 'null'){
-        console.log('finding prev at:', card.previous);
+        // console.log('finding prev at:', card.previous);
 
         Card.findOneAndUpdate({_id:card.previous},{next:`${card._id}`})
           .then((updated) =>{
@@ -71,7 +71,7 @@ router.get('/', jsonParser, (req, res) => {
       return card;
     })
     .then(card => {
-      console.log(card)
+      // console.log(card)
       return res.status(201).json(card.serialize());
     })
     .catch(err => {
