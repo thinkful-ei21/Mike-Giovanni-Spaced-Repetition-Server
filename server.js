@@ -11,6 +11,7 @@ const { PORT, MONGODB_URI} = require('./config');
 
 const usersRouter   = require('./routes/user-router');
 const authRouter  = require('./routes/auth-router');
+const cardRouter = require('./routes/card-router');
 const { localStrategy, jwtStrategy } = require('./auth/strategies');
 
 const app = express();
@@ -40,6 +41,7 @@ passport.use(jwtStrategy);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 
+
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // Initial server test
@@ -53,6 +55,8 @@ app.get('/api/protected', jwtAuth, (req, res) => {
     data: 'You logged in successfully!'
   });
 });
+
+app.use('/api/cards', jwtAuth, cardRouter);
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });
