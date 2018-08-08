@@ -30,6 +30,8 @@ const popCard =(user_id)=>{
     .catch(err=>{console.log('promise error: ', err);});
 };
 
+
+
 const insertCard =(card, previous = 'null') => {
   //will insert a card after 'previous', chaning the relevant next and previous properties of adjacent cards
   //leaving previous null will insert at head of list
@@ -61,6 +63,7 @@ const insertCard =(card, previous = 'null') => {
       });
   }
   else if (card.previous === 'null'){
+    //if we want to insert at the head of our ll, we will insert -before- our first element
     return Card.find({user_id: card.user_id, previous: 'null'})
       .then(found =>{
         if(found.length ===0){
@@ -69,9 +72,12 @@ const insertCard =(card, previous = 'null') => {
         else if(found.length >0){
           card.next = found[0]._id;
           return Card.create(card)
+          //create card has to happen after we find our first element(to get it's _id),
+          // but before we update that element's previous (because we need to create in order to have a new _id)
             .then((newCard) =>{
               return Card.findOneAndUpdate({_id:found[0]._id}, {previous:`${newCard._id}`})
                 .then(()=>{
+                  //but we don't actually care about what our update returns, we want to return our new card
                   return newCard;
                 });
             });
@@ -82,7 +88,29 @@ const insertCard =(card, previous = 'null') => {
 
 };
 
+const insertAt =(card, index) => {
+  //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertCard()
 
+  let i = 0;
+  let currCard = 'null';
+  let brk = false;
+
+  while(i < index && !brk){
+
+    Card.find({user_id: card.user_id, previous: currCard})
+      .then(cc =>{
+        currCard = cc;
+        if(cc.next !== 'null'){
+          i++;
+        }
+        else{
+          brk = true;
+        }
+      });
+  }
+
+  return insertCard(card, currCard);
+};
 
 router.post('/', jsonParser, (req, res) => {
 
@@ -101,7 +129,7 @@ router.post('/', jsonParser, (req, res) => {
 
   let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
   cardTemplate.user_id = _id;
-  console.log(cardTemplate)
+  console.log(cardTemplate);
 
   insertCard(cardTemplate)
     .then(card => {
