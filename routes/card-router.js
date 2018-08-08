@@ -32,7 +32,7 @@ const popCard =(user_id)=>{
 
 
 
-const insertCard =(card, previous = 'null') => {
+const insertAfter =(card, previous = 'null') => {
   //will insert a card after 'previous', chaning the relevant next and previous properties of adjacent cards
   //leaving previous null will insert at head of list
 
@@ -89,7 +89,7 @@ const insertCard =(card, previous = 'null') => {
 };
 
 const insertAt =(card, index) => {
-  //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertCard()
+  //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertAfter()
 
   let i = 0;
   let currCard = 'null';
@@ -97,7 +97,7 @@ const insertAt =(card, index) => {
 
   while(i < index && !brk){
 
-    Card.find({user_id: card.user_id, previous: currCard})
+    Card.findOne({user_id: card.user_id, previous: currCard})
       .then(cc =>{
         currCard = cc;
         if(cc.next !== 'null'){
@@ -109,8 +109,12 @@ const insertAt =(card, index) => {
       });
   }
 
-  return insertCard(card, currCard);
+  return insertAfter(card, currCard);
 };
+
+
+
+
 
 router.post('/', jsonParser, (req, res) => {
 
@@ -121,17 +125,12 @@ router.post('/', jsonParser, (req, res) => {
 
   const _id = req.user._id;
 
-  // const exampleCard = {
-  //   user_id: _id,
-  //   imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
-  //   answer: 'Italy',
-  // };
 
   let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
   cardTemplate.user_id = _id;
   console.log(cardTemplate);
 
-  insertCard(cardTemplate)
+  insertAfter(cardTemplate)
     .then(card => {
       return res.status(201).json(card.serialize());
     })
@@ -190,7 +189,8 @@ router.get('/', jsonParser, (req, res) => {
     })
     .then(card => {
       // console.log(card)
-      return res.status(201).json(card.serialize());
+      const image = card.imageUrls[Math.floor(Math.random()*(card.imageUrls.length))];
+      return res.status(201).json(image);
     })
     .catch(err => {
       if (err.reason === 'ValidationError') {
