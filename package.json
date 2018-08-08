@@ -15,6 +15,7 @@
   "author": "Joe Turner <jturner@thinkful.com>",
   "license": "MIT",
   "dependencies": {
+    "asynch": "^0.5.2",
     "bcrypt": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.4",
