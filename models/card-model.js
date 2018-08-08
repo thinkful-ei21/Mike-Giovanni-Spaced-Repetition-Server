@@ -8,6 +8,7 @@ const CardSchema = mongoose.Schema({
   user_id: {type: String, required: true},
   imageUrls: {type: Array, required: true},
   answer: {type: String, required: true},
+  mValue: {type: Number, required: true, default: 1},
   next: {type: String, default: 'null'},
   previous: {type: String, default: 'null'}
 });

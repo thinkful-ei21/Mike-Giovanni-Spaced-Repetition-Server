@@ -10,14 +10,6 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 
-// const appendCard = (user_id, previous ='null')=>({
-//   user_id: user_id,
-//   imageUrls: ['https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg'],
-//   answer: 'Italy',
-//   next: 'null',
-//   previous: previous
-// });
-
 
 const popCard =(user_id)=>{
   //removes and returns first document in ll
@@ -126,7 +118,6 @@ const populateCards = (_id) =>{
       return new Promise((resolve)=>{
         resolve()
       })
-
     }
 
     console.log('here again')
@@ -141,30 +132,6 @@ const populateCards = (_id) =>{
   }
 
   return iterate(cardArr, index);
-
-  // };
-  // console.log('here')
-
-  // for (let index = 0; index < cardArr.length;) {
-  //   const cardTemplate = cardArr[index];
-  //   cardTemplate.user_id = _id;
-  //   insertAfter(cardTemplate)
-  //     .then(card =>{
-  //       console.log(card);
-  //       index++;});
-    
-  // }
-
-  // for (let cardTemplate of cardArr){
-  //   cardTemplate.user_id = _id;
-
-  //   let obj = insertAfter(cardTemplate)
-
-
-
-
-
-  // return;
 
 };
 
@@ -197,39 +164,15 @@ router.post('/', jsonParser, (req, res) => {
     });
 
 
-  // Card.find({user_id: _id, next: 'null'})
-  //   .then(found =>{
-  //   //   console.log('found:', found);
-  //     return found.length ===0? appendCard(_id) : appendCard(_id, found[0]._id);
-  //   })
-  //   .then(newCard =>{
-  //     return Card.create(newCard);
-  //   })
-  //   .then(card =>{
-  //     if(card.previous !== 'null'){
-  //       // console.log('finding prev at:', card.previous);
-
-  //       Card.findOneAndUpdate({_id:card.previous},{next:`${card._id}`})
-  //         .then(() =>{
-  //           return card;
-  //         });
-
-  //     }
-  //     return card;
-  //   })
-  // .then(card => {
-  //   return res.status(201).json(card.serialize());
-  // })
-  // .catch(err => {
-  //   // Forward validation errors on to the client, otherwise give a 500
-  //   // error because something unexpected has happened
-  //   if (err.reason === 'ValidationError') {
-  //     return res.status(err.code).json(err);
-  //   }
-  //   res.status(500).json({code: 500, message: 'Internal server error'});
-  // });
-    
 });
+
+router.put('/', jsonParser, (req, res) =>{
+
+  // gets answer from client, compares with first element of user's linked list
+  // will update linked list with new values
+  // responds with correctAnswer, result (true/false)
+
+})
 
 router.get('/', jsonParser, (req, res) => {
 // look at card database and only returns first item in LL thats associated with user 
