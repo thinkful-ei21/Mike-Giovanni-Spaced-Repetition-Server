@@ -168,10 +168,44 @@ router.post('/', jsonParser, (req, res) => {
 
 router.put('/', jsonParser, (req, res) =>{
 
+  const _id = req.user._id;
+  const answer = req.body.answer.toLowerCase();
+  let result = false;
+  let mValue;
+
+
+
   // gets answer from client, compares with first element of user's linked list
   // will update linked list with new values
-  // responds with correctAnswer, result (true/false)
-
+  // responds with resultAnswer, result (true/false)
+  Card.findOne({user_id: _id, previous: 'null'})
+    .then(card => {
+      if(!card) {
+        const Error = new Error ('Database Error');
+        return Promise.reject(Error)
+      } else {
+        if(card.answer.toLowerCase() === answer) {
+          console.log('answers ', answer, card.answer)
+          result = true;
+          mValue = card.mValue * 2;
+        } else {
+          result = false;
+          mValue = 1;
+        }
+        return card._id
+      }
+    })
+    .then(() => {
+      let card = popCard(_id);
+      return card.then(card => {
+        card.mValue = mValue;
+        console.log('value', card)
+        return insertAt(card, mValue);
+      })
+    })
+    .then(res => {
+      res.status(201).json({answer, result})
+    })
 })
 
 router.get('/', jsonParser, (req, res) => {
