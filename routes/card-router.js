@@ -13,10 +13,14 @@ const jsonParser = bodyParser.json();
 
 const popCard =(user_id)=>{
   //removes and returns first document in ll
-
+ 
   return Card.findOne({user_id:user_id, previous: 'null'})
     .then(found => {
-      return Card.findOneAndRemove({user_id:user_id, previous: 'null'})
+
+      return Card.findOneAndRemove({_id:found._id})
+        .then(()=>{
+          Card.findOneAndUpdate({_id:found.next},{previous:'null'})
+        })
         .then(()=>{return found;});
     })
     .catch(err=>{console.log('promise error: ', err);});
@@ -120,7 +124,7 @@ const populateCards = (_id) =>{
       })
     }
 
-    console.log('here again')
+    console.log('here again', index)
     if(index === cardArr.length){
       return;
     }
@@ -148,7 +152,7 @@ router.post('/', jsonParser, (req, res) => {
 
   let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
   cardTemplate.user_id = _id;
-  console.log(cardTemplate);
+  // console.log(cardTemplate);
 
   insertAfter(cardTemplate)
     .then(card => {
@@ -181,8 +185,8 @@ router.put('/', jsonParser, (req, res) =>{
   Card.findOne({user_id: _id, previous: 'null'})
     .then(card => {
       if(!card) {
-        const Error = new Error ('Database Error');
-        return Promise.reject(Error)
+        const DBError = new Error ('Database Error');
+        return Promise.reject(DBError)
       } else {
         if(card.answer.toLowerCase() === answer) {
           console.log('answers ', answer, card.answer)
