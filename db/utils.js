@@ -105,9 +105,9 @@ const insertAfter =(cardTemplate, previous = 'null') => {
 
 const insertAt =(card, index) => {
   //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertAfter()
-  let i = 0;
+  let i = 1;
       
-  console.log('inserting:', card);
+  console.log('inserting at:', index , card);
   const findNext = (prevID = 'null') => {
     console.log(i);
     Card.findOne({user_id: card.user_id, previous: prevID})
