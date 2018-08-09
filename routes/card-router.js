@@ -23,23 +23,43 @@ router.post('/', jsonParser, (req, res) => {
 
   const _id = req.user._id;
 
+  let i = 0;
+      
+  
+  const findNext = (prevID = 'null') => {
+    
+    Card.findOne({user_id: _id, previous: prevID})
+      .then(found=>{
+        // console.log('found next:',found)
+        console.log(i, found);
+        i++;
+        if(found.next !== 'null'){
+          console.log(found.next);
+          
+          findNext(found.next);
+        }     
+      });
+  };
+  findNext();
 
-  let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
-  cardTemplate.user_id = _id;
-  // console.log(cardTemplate);
+  return res.status(201).json('check the server logs');
+  
+  // let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
+  // cardTemplate.user_id = _id;
+  // // console.log(cardTemplate);
 
-  insertAfter(cardTemplate)
-    .then(card => {
-      return res.status(201).json(card.serialize());
-    })
-    .catch(err => {
-    // Forward validation errors on to the client, otherwise give a 500
-    // error because something unexpected has happened
-      if (err.reason === 'ValidationError') {
-        return res.status(err.code).json(err);
-      }
-      res.status(500).json({code: 500, message: 'Internal server error'});
-    });
+  // insertAfter(cardTemplate)
+  //   .then(card => {
+  //     return res.status(201).json(card.serialize());
+  //   })
+  //   .catch(err => {
+  //   // Forward validation errors on to the client, otherwise give a 500
+  //   // error because something unexpected has happened
+  //     if (err.reason === 'ValidationError') {
+  //       return res.status(err.code).json(err);
+  //     }
+  //     res.status(500).json({code: 500, message: 'Internal server error'});
+  //   });
 
 
 });
@@ -48,6 +68,7 @@ router.put('/', jsonParser, (req, res) =>{
 
   const _id = req.user._id;
   const answer = req.body.answer.toLowerCase();
+  let correctAnswer = '';
   let result = false;
   let mValue;
 
@@ -56,6 +77,7 @@ router.put('/', jsonParser, (req, res) =>{
   // responds with resultAnswer, result (true/false)
   Card.findOne({user_id: _id, previous: 'null'})
     .then(card => {
+      correctAnswer = card.answer;
       if(!card) {
         const DBError = new Error ('Database Error');
         return Promise.reject(DBError);
@@ -80,7 +102,7 @@ router.put('/', jsonParser, (req, res) =>{
       });
     })
     .then(() => {
-      res.status(201).json({answer, result});
+      res.status(201).json({correctAnswer, result});
     });
 });
 
