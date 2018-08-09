@@ -31,12 +31,10 @@ router.post('/', jsonParser, (req, res) => {
     Card.findOne({user_id: _id, previous: prevID})
       .then(found=>{
         // console.log('found next:',found)
-        console.log(i, found);
+        console.log(i, found.answer);
         i++;
-        if(found.next !== 'null'){
-          console.log(found.next);
-          
-          findNext(found.next);
+        if(found.next !== 'null'){          
+          findNext(found._id);
         }     
       });
   };

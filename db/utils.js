@@ -116,7 +116,7 @@ const insertAt =(card, index) => {
         console.log(i, found.answer);
         i++;
         if(i<index && found.next !== 'null'){
-          return findNext(found.next);
+          return findNext(found._id);
         }
         else{
           console.log('inserting after', found);
