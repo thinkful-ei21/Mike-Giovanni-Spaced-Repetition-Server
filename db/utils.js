@@ -1,7 +1,7 @@
 'use strict';
 
 const {Card} = require('../models/card-model');
-
+const {cardArr} = require('../db/cardDB');
 
 
 const popCard =(user_id)=>{
@@ -49,7 +49,7 @@ const insertAfter =(cardTemplate, previous = 'null') => {
           return(Card.create(card));    
         })
         .then(newCard =>{
-          console.log('or here?',newCard);
+        //   console.log('or here?',newCard);
           if(newCard.next !== 'null'){
              
             return Card.findOneAndUpdate({_id:card.next}, {previous:`${newCard._id}`})
@@ -129,7 +129,7 @@ const insertAt =(card, index) => {
 const populateCards = (_id) =>{
 
     let index = 0;
-    console.log('here?')
+    // console.log('here?', _id)
     async function iterate (cardArr, index) {
       
       if(index === cardArr.length){
@@ -138,7 +138,7 @@ const populateCards = (_id) =>{
         })
       }
   
-      console.log('here again', index)
+    //   console.log('here again', index)
       if(index === cardArr.length){
         return;
       }
