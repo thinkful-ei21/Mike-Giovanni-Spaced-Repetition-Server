@@ -79,7 +79,7 @@ const insertAfter =(cardTemplate, previous = 'null') => {
             resolve(Card.create(card));
           }
           else if(found.length >0){
-            console.log('inserting first');
+            // console.log('inserting first');
             card.next = found[0]._id;
             return Card.create(card)
             //create card has to happen after we find our first element(to get it's _id),
@@ -105,14 +105,15 @@ const insertAfter =(cardTemplate, previous = 'null') => {
 
 const insertAt =(card, index) => {
   //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertAfter()
-  let i = 1;
+  let i = 0;
       
   console.log('inserting at:', index , card);
   const findNext = (prevID = 'null') => {
-    console.log(i);
+    
     Card.findOne({user_id: card.user_id, previous: prevID})
       .then(found=>{
         // console.log('found next:',found)
+        console.log(i, found.answer);
         i++;
         if(i<index && found.next !== 'null'){
           return findNext(found.next);

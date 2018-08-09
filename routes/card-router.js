@@ -97,8 +97,8 @@ router.get('/', jsonParser, (req, res) => {
       else{
         return populateCards(_id)
           .then((result)=>{
-            console.log(result);
-            Card.findOne({user_id: _id, previous: 'null'});
+            // console.log(result);
+            return Card.findOne({user_id: _id, previous: 'null'});
           });
       }
     })
