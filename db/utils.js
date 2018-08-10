@@ -34,22 +34,16 @@ const insertAfter =(cardTemplate, previous = 'null') => {
   card.previous = previous;
   card.answer = cardTemplate.answer;
   card.mValue = cardTemplate.mValue;
-  // console.log(card._id)
-  // if(card._id){delete card["_id"]}
-    
-  // console.log('inserting', card, 'after', previous)
     
   
   return new Promise((resolve, reject) => {
     if(card.previous !== 'null'){
       return Card.findOne({_id:card.previous})
         .then(prev =>{
-          // console.log('here!!!', card,prev)
           card.next = prev.next;
           return(Card.create(card));    
         })
         .then(newCard =>{
-        //   console.log('or here?',newCard);
           if(newCard.next !== 'null'){
              
             return Card.findOneAndUpdate({_id:card.next}, {previous:`${newCard._id}`})
@@ -70,16 +64,13 @@ const insertAfter =(cardTemplate, previous = 'null') => {
         .catch(err =>{  reject(new Error(err)); });
     }
     else if (card.previous === 'null'){
-      // console.log(card);
       //if we want to insert at the head of our ll, we will insert -before- our first element
       return Card.find({user_id: card.user_id, previous: 'null'})
         .then(found =>{
-          // console.log(found);
           if(found.length === 0){
             resolve(Card.create(card));
           }
           else if(found.length >0){
-            // console.log('inserting first');
             card.next = found[0]._id;
             return Card.create(card)
             //create card has to happen after we find our first element(to get it's _id),
@@ -106,20 +97,15 @@ const insertAfter =(cardTemplate, previous = 'null') => {
 const insertAt =(card, index) => {
   //loop thorough our ll ( a while loop, prob.) to find the card before our index, then call insertAfter()
   let i = 0;
-      
-  console.log('inserting at:', index , card);
+
   const findNext = (prevID = 'null') => {
-    
-    Card.findOne({user_id: card.user_id, previous: prevID})
+    return Card.findOne({user_id: card.user_id, previous: prevID})
       .then(found=>{
-        // console.log('found next:',found)
-        console.log(i, found.answer);
         i++;
         if(i<index && found.next !== 'null'){
           return findNext(found._id);
         }
         else{
-          console.log('inserting after', found);
           return insertAfter(card, found._id);}
       });  
   };
@@ -130,7 +116,7 @@ const insertAt =(card, index) => {
 const populateCards = (_id) =>{
 
     let index = 0;
-    // console.log('here?', _id)
+
     async function iterate (cardArr, index) {
       
       if(index === cardArr.length){
@@ -139,7 +125,6 @@ const populateCards = (_id) =>{
         })
       }
   
-    //   console.log('here again', index)
       if(index === cardArr.length){
         return;
       }
@@ -153,8 +138,6 @@ const populateCards = (_id) =>{
     return iterate(cardArr, index);
   
   };
-
-
 
 
 module.exports = {populateCards, insertAfter, insertAt, popCard};

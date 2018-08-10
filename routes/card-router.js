@@ -13,24 +13,17 @@ const jsonParser = bodyParser.json();
 
 
 router.post('/', jsonParser, (req, res) => {
-
-  //post endpoint is depreciated, I think.... leaving it in for now in case it helps with testing
-
-  //this endpoint currently appends a new card to the end of our logged-in user's linked list.
-  //that's probably not what this endpoint will do in the end, 
-  //but I have it set up here as an example of how the the logic could work (and to seed lists)
-
+  //this is here for debugging, 
+  //it will log the items and order of our user's linked list (in the server console)
 
   const _id = req.user._id;
 
   let i = 0;
       
-  
   const findNext = (prevID = 'null') => {
-    
+  
     Card.findOne({user_id: _id, previous: prevID})
       .then(found=>{
-        // console.log('found next:',found)
         console.log(i, found.answer);
         i++;
         if(found.next !== 'null'){          
@@ -41,24 +34,6 @@ router.post('/', jsonParser, (req, res) => {
   findNext();
 
   return res.status(201).json('check the server logs');
-  
-  // let cardTemplate = cardArr[Math.floor(Math.random()*(cardArr.length))];
-  // cardTemplate.user_id = _id;
-  // // console.log(cardTemplate);
-
-  // insertAfter(cardTemplate)
-  //   .then(card => {
-  //     return res.status(201).json(card.serialize());
-  //   })
-  //   .catch(err => {
-  //   // Forward validation errors on to the client, otherwise give a 500
-  //   // error because something unexpected has happened
-  //     if (err.reason === 'ValidationError') {
-  //       return res.status(err.code).json(err);
-  //     }
-  //     res.status(500).json({code: 500, message: 'Internal server error'});
-  //   });
-
 
 });
 
@@ -81,7 +56,6 @@ router.put('/', jsonParser, (req, res) =>{
         return Promise.reject(DBError);
       } else {
         if(card.answer.toLowerCase() === answer) {
-          console.log('answers ', answer, card.answer);
           result = true;
           mValue = card.mValue * 2;
         } else {
@@ -95,12 +69,17 @@ router.put('/', jsonParser, (req, res) =>{
       let card = popCard(_id);
       return card.then(card => {
         card.mValue = mValue;
-        // console.log('value', card)
         return insertAt(card, mValue);
       });
     })
     .then(() => {
       res.status(201).json({correctAnswer, result});
+    })
+    .catch(err => {
+      if (err.reason === 'ValidationError') {
+        return res.status(err.code).json(err);
+      }
+      else res.status(400).json(err);
     });
 });
 
@@ -117,13 +96,11 @@ router.get('/', jsonParser, (req, res) => {
       else{
         return populateCards(_id)
           .then((result)=>{
-            // console.log(result);
             return Card.findOne({user_id: _id, previous: 'null'});
           });
       }
     })
     .then(card => {
-      // console.log(card)
       const image = card.imageUrls[Math.floor(Math.random()*(card.imageUrls.length))];
       return res.status(201).json(image);
     })
