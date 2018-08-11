@@ -48,7 +48,7 @@ const cardArr = [
     'https://trevorontour.files.wordpress.com/2012/11/dsc01049.jpg',
     'http://www.orangesmile.com/extreme/img/main/statue-of-virgin-mary-quito_1.jpg'
   ],
-  'answer': 'Equador'},
+  'answer': 'Ecuador'},
   {'imageUrls': [
     'http://academic.brooklyn.cuny.edu/geology/grocha/monument/images/ayres4.jpg',
     'https://travelingcanucks.com/wp-content/uploads/2011/06/Sydney-Opera-House.jpg',
