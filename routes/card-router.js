@@ -40,7 +40,7 @@ router.post('/', jsonParser, (req, res) => {
 router.put('/', jsonParser, (req, res) =>{
 
   const _id = req.user._id;
-  const answer = req.body.answer.toLowerCase();
+  const answer = req.body.answer.toLowerCase().replace(/\W/g, '');
   let correctAnswer = '';
   let result = false;
   let mValue;

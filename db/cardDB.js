@@ -2,45 +2,45 @@
 
 const cardArr = [
   {'imageUrls': [
-    'http://spirittourism.com/wp-content/uploads/2013/05/Colosseum-Famous-Monument-of-Rome-Italy1.jpg',
+    'https://imgc.allpostersimages.com/images/P-473-488-90/26/2677/THCUD00Z/posters/david-marshall-the-colosseum-rome-italy.jpg',
     'https://i0.wp.com/www.guggenheim.org/wp-content/uploads/2016/04/architecture-pgc-exterior-16-9-ratio-web.jpg',
     'https://www.italianme.it/wp-content/uploads/2016/11/Florence-monuments-2.jpg?x19310'
   ],
   'answer': 'Italy'},
   {'imageUrls': [
-    'http://tanukisan2.com/photos/DC%20Washington%20Monument%20f.jpg',
-    'http://www.covingtontravel.com/wp-content/uploads/2013/02/Mount-Rushmore.jpg',
+    'https://www.usnews.com/dims4/USNEWS/c42ff1c/2147483647/thumbnail/640x420/quality/85/?url=http%3A%2F%2Fmedia.beam.usnews.com%2Fbc%2Feb%2Fad1b7d404905bf4e43dba72c45d5%2F170815-lincolnmemorial-editorial.jpg',
+    'https://i.pinimg.com/originals/f9/29/30/f92930d29955a94a3fded558012fa040.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/4/4e/Monument_Valley.jpg'
   ],
-  'answer': 'U.S.A'},
+  'answer': 'USA'},
   {'imageUrls': [
     'https://chinesepeculiartraditions.files.wordpress.com/2013/12/2.jpg',
-    'http://famouswonders.com/wp-content/gallery/the-great-wall-of-china/great-wall-of-china-at-mutianyu-near-beijing.jpg',
-    'http://2.bp.blogspot.com/-fj2EzuML_vs/UcdGdsPAaBI/AAAAAAAAKa8/C35Qpmrrb6k/s1600/tallest-statues-world-emperors-yan-huang-china+(3).jpg'
+    'https://www.thehistoryhub.com/wp-content/uploads/2014/05/Great-Wall-of-China-Image.jpg',
+    'https://2.bp.blogspot.com/-fj2EzuML_vs/UcdGdsPAaBI/AAAAAAAAKa8/C35Qpmrrb6k/s1600/tallest-statues-world-emperors-yan-huang-china+(3).jpg'
   ],
   'answer': 'China'},
   {'imageUrls': [
     'https://indianmonumentattractions.files.wordpress.com/2013/01/indian-monument-attractions-4-hawa-mahal.jpg',
     'https://marbleindian.files.wordpress.com/2014/08/taj-mahal-agra.jpg',
-    'http://2.bp.blogspot.com/--0vVqraakRE/TxWkCKdXGxI/AAAAAAAABv8/e3LTEZ1qU-8/s1600/%2528India%2529+-+Hampi+-+Virupaksha+Temple+2.jpg'
+    'https://2.bp.blogspot.com/--0vVqraakRE/TxWkCKdXGxI/AAAAAAAABv8/e3LTEZ1qU-8/s1600/%2528India%2529+-+Hampi+-+Virupaksha+Temple+2.jpg'
   ],
   'answer': 'India'},
   {'imageUrls': [
-    'http://www.topworldplaces.com/gallery/places-to-visit-in-morocco/kasbah_morocco.jpg',
-    'http://www.moroccotourguide.com/images/large2/16.jpg',
+    'https://c1.staticflickr.com/5/4111/4977032963_18d0dbcdc9_b.jpg',
+    'https://2.bp.blogspot.com/-h7bNrmiohY8/U--QwkNz1NI/AAAAAAAAADQ/Tr0qajx_2RQ/s1600/La%2BTour%2BHassan%2BIn%2BMorocco%2B(2).jpg',
     'https://www.globeholidays.net/Africa/Morocco/Media/rabat_mausoleum.jpg'
   ],
   'answer': 'Morocco'},
   {'imageUrls': [
     'https://i.pinimg.com/originals/a6/73/e4/a673e4cc8dee58de29abb9f3dc7925c8.jpg',
-    'http://www.cruise-panorama.com/wp-content/uploads/2014/04/Great-monuments-La-Sagrada-Familia-Barcelona-Spain.jpg',
+    'https://i2.wp.com/stay-u-nique.com/blog/wp-content/uploads/2016/10/sagrada-familia.png',
     'https://upload.wikimedia.org/wikipedia/commons/9/97/Alhambra_L%C3%B6wenhof_mit_L%C3%B6wenbrunnen_2014.jpg'
   ],
   'answer': 'Spain'},
   {'imageUrls': [
     'https://magical-steps.com/images/icerik/mod_tours/istanbul-blue-mosque-jpg1024_700_1jk0.jpg',
     'https://magical-steps.com/images/icerik/mod_tours/aspendos-tiyatro_700_1jk0.jpg',
-    'http://3.bp.blogspot.com/-hRQ91bhKBy8/UVCnTv3sxeI/AAAAAAAB1QU/MZnnBmtob9k/s1600/Interior-of-the-Blue-Mosque-Sultan-Ahmed-Mosque-j318093130.jpg'
+    'https://3.bp.blogspot.com/-hRQ91bhKBy8/UVCnTv3sxeI/AAAAAAAB1QU/MZnnBmtob9k/s1600/Interior-of-the-Blue-Mosque-Sultan-Ahmed-Mosque-j318093130.jpg'
   ],
   'answer': 'Turkey'},
   {'imageUrls': [
@@ -50,13 +50,13 @@ const cardArr = [
   ],
   'answer': 'Ecuador'},
   {'imageUrls': [
-    'http://academic.brooklyn.cuny.edu/geology/grocha/monument/images/ayres4.jpg',
+    'https://4.bp.blogspot.com/-1Y7PvWjQ1H8/UVVoRuDmK-I/AAAAAAAACrg/hiH2ufed6aE/s1600/Ayers+Rock+in+Uluru+National+Park2.jpg',
     'https://travelingcanucks.com/wp-content/uploads/2011/06/Sydney-Opera-House.jpg',
     'https://travelingcanucks.com/wp-content/uploads/2011/06/australian-war-memorial.jpg'
   ],
   'answer': 'Australia'},
   {'imageUrls': [
-    'http://www25.tok2.com/home/sakuda/02japan/04kinki/kinki04.jpg',
+    'https://i.pinimg.com/736x/2f/dd/9b/2fdd9b5069423b6201a1825eeebd1a97.jpg',
     'https://blog.buckitdream.com/wp-content/uploads/2017/11/tokyo-mud-bath-bar-mudbath0716.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/d/d4/Tokyo_tower_world_trade.jpg'
   ],
