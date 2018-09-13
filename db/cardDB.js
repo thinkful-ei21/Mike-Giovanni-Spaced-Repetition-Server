@@ -32,7 +32,7 @@ const cardArr = [
   ],
   'answer': 'Morocco'},
   {'imageUrls': [
-    'https://i.pinimg.com/originals/a6/73/e4/a673e4cc8dee58de29abb9f3dc7925c8.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/0/0f/Monument_to_Alfonso_XII_of_Spain%2C_Madrid_-_general_view_1.JPG',
     'https://i2.wp.com/stay-u-nique.com/blog/wp-content/uploads/2016/10/sagrada-familia.png',
     'https://upload.wikimedia.org/wikipedia/commons/9/97/Alhambra_L%C3%B6wenhof_mit_L%C3%B6wenbrunnen_2014.jpg'
   ],
